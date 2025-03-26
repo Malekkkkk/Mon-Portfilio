@@ -1,66 +1,72 @@
 // Données des projets et expériences
 const projects = [
     {
-        title: "Apprenti DevOps Engineer",
-        company: "Amadeus",
-        period: "Oct 2023 - Présent",
-        location: "Nice, France",
-        description: "Développement et amélioration de Backstage, un portail DevOps pour centraliser les services et l'infrastructure. Intégration d'outils d'automatisation et redéfinition de l'architecture de flux de release.",
+        id: "devops_amadeus",
         technologies: ["DevOps", "Backstage", "YAML", "Kubernetes", "ArgoCD"],
         icon: "fa-cloud"
     },
     {
-        title: "Stage - Software Engineer",
-        company: "Amadeus",
-        period: "Avr 2023 - Jul 2023",
-        location: "Nice, France",
-        description: "Développement d'une application web interne pour suivre les charges de release et les scans de sécurité. Migration des tests end-to-end de Cypress vers Playwright.",
+        id: "software_amadeus",
         technologies: ["JavaScript", "Playwright", "Cypress", "Kubernetes", "ArgoCD"],
         icon: "fa-code"
     },
     {
-        title: "Station Météo Prototype",
-        company: "CESI",
-        period: "2023",
-        location: "Nice, France",
-        description: "Construction d'un prototype pour détecter divers paramètres environnementaux.",
+        id: "weather_station",
         technologies: ["UML", "C++", "Arduino"],
         icon: "fa-temperature-high"
     },
     {
-        title: "Site Web d'Offres de Stage",
-        company: "CESI",
-        period: "2023",
-        location: "Nice, France",
-        description: "Développement d'un site web regroupant les offres de stage, similaire à LinkedIn.",
+        id: "internship_website",
         technologies: ["HTML", "CSS", "JavaScript", "PHPMyAdmin", "REST APIs"],
         icon: "fa-briefcase"
     },
     {
-        title: "Entrepôt de Données Médicales",
-        company: "CESI",
-        period: "2023",
-        location: "Nice, France",
-        description: "Construction d'un entrepôt de données pour l'analyse de données médicales.",
+        id: "medical_warehouse",
         technologies: ["PowerBI", "SQL", "Talend"],
         icon: "fa-database"
     },
     {
-        title: "Développement de Jeu Vidéo",
-        company: "Esprit",
-        period: "2022",
-        location: "Tunis, Tunisie",
-        description: "Développement d'un jeu vidéo, classé parmi les 10 meilleurs projets du concours annuel.",
+        id: "video_game",
         technologies: ["C", "GitHub", "Linux", "SDL"],
         icon: "fa-gamepad"
     }
 ];
 
+// Gestion des traductions
+let currentLanguage = 'fr';
+
+function updateLanguage(lang) {
+    currentLanguage = lang;
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translation = key.split('.').reduce((obj, i) => obj[i], translations[currentLanguage]);
+        if (translation) {
+            element.textContent = translation;
+        }
+    });
+    
+    // Mettre à jour les titres des sections
+    document.querySelector('#about h2').textContent = translations[currentLanguage].skills.title;
+    document.querySelector('#projets h2').textContent = translations[currentLanguage].projects.title;
+    document.querySelector('#contact h2').textContent = translations[currentLanguage].contact.title;
+    
+    // Mettre à jour le footer
+    document.querySelector('footer p').textContent = translations[currentLanguage].footer.copyright;
+    
+    // Mettre à jour les cartes de projets
+    createProjectCards();
+    
+    // Sauvegarder la préférence de langue
+    localStorage.setItem('preferredLanguage', lang);
+}
+
 // Fonction pour créer les cartes de projets
 function createProjectCards() {
     const projectsGrid = document.querySelector('.projets-grid');
+    projectsGrid.innerHTML = ''; // Vider la grille existante
     
     projects.forEach(project => {
+        const projectData = translations[currentLanguage].projects.items[project.id];
         const projectCard = document.createElement('div');
         projectCard.className = 'project-card';
         projectCard.innerHTML = `
@@ -68,10 +74,10 @@ function createProjectCards() {
                 <i class="fas ${project.icon}"></i>
             </div>
             <div class="project-info">
-                <h3>${project.title}</h3>
-                <p class="company">${project.company}</p>
-                <p class="period">${project.period} - ${project.location}</p>
-                <p class="description">${project.description}</p>
+                <h3>${projectData.title}</h3>
+                <p class="company">${projectData.company}</p>
+                <p class="period">${projectData.period} - ${projectData.location}</p>
+                <p class="description">${projectData.description}</p>
                 <div class="project-technologies">
                     ${project.technologies.map(tech => `<span>${tech}</span>`).join('')}
                 </div>
@@ -243,12 +249,18 @@ function animateContactIcons() {
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', function() {
-    createProjectCards();
-    window.addEventListener('scroll', () => {
-        animateOnScroll();
-        parallaxEffect();
+    // Récupérer la langue préférée ou utiliser le français par défaut
+    const preferredLanguage = localStorage.getItem('preferredLanguage') || 'fr';
+    document.getElementById('language-select').value = preferredLanguage;
+    updateLanguage(preferredLanguage);
+    
+    // Écouter les changements de langue
+    document.getElementById('language-select').addEventListener('change', function(e) {
+        updateLanguage(e.target.value);
     });
-    animateOnScroll(); // Animation initiale
+    
+    animateOnScroll();
+    parallaxEffect();
     animateSkills();
     animateProjectCards();
     animateForm();
