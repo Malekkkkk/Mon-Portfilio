@@ -14,10 +14,16 @@
         <div class="nav-content">
             <div class="logo">Malek Nasri</div>
             <ul class="nav-links">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#about">À propos</a></li>
-                <li><a href="#projets">Projets</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#accueil" data-i18n="nav.home">Accueil</a></li>
+                <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+                <li><a href="#projets" data-i18n="nav.projects">Projets</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+                <li class="language-selector">
+                    <select id="language-select">
+                        <option value="fr">FR</option>
+                        <option value="en">EN</option>
+                    </select>
+                </li>
             </ul>
         </div>
     </nav>
@@ -29,7 +35,7 @@
             </div>
             <div class="hero-text">
                 <h1>Malek Nasri</h1>
-                <p class="tagline">Étudiant en Ingénierie Informatique | DevOps Engineer</p>
+                <p class="tagline" data-i18n="hero.subtitle">Étudiant en Ingénierie Informatique | DevOps Engineer</p>
                 <div class="contact-info">
                     <p><i class="fas fa-envelope"></i> malek.nasri@viacesi.fr</p>
                     <p><i class="fas fa-phone"></i> +33 06 52 18 19 84</p>
@@ -138,6 +144,7 @@
         <p>&copy; 2024 Malek Nasri. Tous droits réservés.</p>
     </footer>
 
+    <script src="js/translations.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html> 

@@ -715,4 +715,68 @@ footer {
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
+}
+
+/* Language Selector */
+.language-selector {
+    margin-left: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+#language-select {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-decoration: none;
+    position: relative;
+}
+
+#language-select:hover {
+    color: var(--primary-color);
+}
+
+#language-select:focus {
+    outline: none;
+}
+
+/* Ajout de la flèche personnalisée */
+.language-selector::after {
+    content: '▼';
+    font-size: 0.8rem;
+    color: var(--text-color);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.language-selector:hover::after {
+    color: var(--primary-color);
+}
+
+#language-select option {
+    background-color: white;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .language-selector {
+        margin: 1rem 0;
+    }
+    
+    #language-select {
+        width: 100%;
+        text-align: center;
+    }
 } 
